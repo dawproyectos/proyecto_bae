@@ -12,9 +12,9 @@ son ingresados en la planta correspondiente (traumatología, cuidados intensivos
 ## Solución a implementar
 
 - Detecta y/o define al menos 8 tablas en la solución propuesta, __sin tener en cuenta las relaciones__.
-- [Crea el Diagrama ER](../../ER/README.md)
-- [Crea el Modelo Relacional](../../MR/README.md)
-- [Realiza y justifica la Normalización de la BBDD](../../NORMALIZACION/README.md)
-- [Programa la inclusión de elementos en la BBDD](../../PROGRAMACION/README.md)
+- Crea el Diagrama ER.
+- Crea el Modelo Relacional.
+- Realiza y justifica la Normalización de la BBDD.
+- Programa la inclusión de elementos en la BBDD.
 
 </div>
