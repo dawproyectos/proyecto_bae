@@ -1,13 +1,12 @@
 <div align="justify">
 
 <div align="center">
-<img src="https://elcorreoweb.es/binrepository/a1-3593786-20231853_20231853_20190730112926.jpg" width="500px"/>
+<img src="" width=80%/>
 </div>
-
-Se requiere realizar una aplicación para la gestión de un hospital.
-
-En este hospital, los pacientes que llegan al servicio de urgencias del hospital son examinados y, dependiendo de su estado de salud,
-son ingresados en la planta correspondiente (traumatología, cuidados intensivos, ...) bajo la supervisión de un médico responsable.
+  
+# Hospital
+  
+Se requiere realizar una aplicación para la gestión de un hospital. En este hospital, los pacientes que llegan al servicio de urgencias del hospital son examinados y, dependiendo de su estado de salud, son ingresados en la planta correspondiente (traumatología, cuidados intensivos, ...) bajo la supervisión de un médico responsable.
 
 ## Solución a implementar
 
