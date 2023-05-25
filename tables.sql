@@ -26,3 +26,6 @@ END
 //
 
 
+CREATE TRIGGER añadir_a_historico AFTER INSERT ON cita
+BEGIN
+    INSERT INTO historial(New.nombre, New.apellido)
