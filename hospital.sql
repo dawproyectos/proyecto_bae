@@ -154,33 +154,61 @@ BEGIN
         SET ultimo_paciente = ultimo_paciente + 1;
         SET _documento = LPAD(CONCAT(ultimo_paciente, 'A'), 9, 0);
         INSERT INTO paciente values(_documento, _nombre, _apellido, _date, _sexo, _telefono);
-        set contador = contador + 1;
+        SET contador = contador + 1;
     END WHILE;
 END 
 //
 DELIMITER ;
 CALL insertar_pacientes(30)
 ;
---- Procedimiento para insertar medicos de forma aleatoria
+--- Procedimiento para insertar especialidades de forma aleatoria:
 DELIMITER //
-CREATE PROCEDURE insertar_medico(IN inserts int)
+DROP PROCEDURE IF EXISTS insertar_especialidad;
+CREATE PROCEDURE insertar_especialidad(IN inserts int)
 BEGIN
-    DECLARE especialidad_medico int;
-    DECLARE nombre_medico VARCHAR(55);
-    DECLARE apellido_medico VARCHAR(55);
     DECLARE contador int;
+    DECLARE ultima_especialidad int;
+    DECLARE _descripción VARCHAR(55);
+    DECLARE nombre_especialidad VARCHAR(55);
+    SET ultima_especialidad = (select count(*) from especialidad);
+    SET _descripción = "Esta especialidad se dedica a tratar a los pacientes";
     SET contador = 0;
-    SET especialidad_medico = (SELECT id from especialidad ORDER BY RAND() LIMIT 1);
-    SET nombre_medico = (SELECT nombre FROM nombres ORDER BY RAND() LIMIT 1);
-    SET apellido_medico = (SELECT apellido FROM nombres ORDER BY RAND() LIMIT 1);
     WHILE contador < inserts do
-        INSERT INTO medico(especialidad, nombre, apellido) values (especialidad_medico, nombre_medico, apellido_medico);
+        SET ultima_especialidad = ultima_especialidad + 1;
+        SET nombre_especialidad = CONCAT('especialidad', ultima_especialidad);
+        INSERT INTO especialidad(nombre,descripcion) values(nombre_especialidad, _descripción);
         SET contador = contador + 1;
     END WHILE;
 END
 //
+DELIMITER ;
+CALL insertar_especialidad(5)
+;
+--- Procedimiento para insertar medicos de forma aleatoria
+DELIMITER //
+DROP PROCEDURE IF EXISTS insertar_medico;
+CREATE PROCEDURE insertar_medico(IN inserts int)
+BEGIN
+    DECLARE especialidad int;
+    DECLARE nombre_medico VARCHAR(55);
+    DECLARE apellido_medico VARCHAR(55);
+    DECLARE contador int;
+    SET contador = 0;
+    WHILE contador < inserts do
+        SET especialidad = (SELECT id from especialidad ORDER BY RAND() LIMIT 1);
+        SET nombre_medico = (SELECT nombre FROM nombres ORDER BY RAND() LIMIT 1);
+        SET apellido_medico = (SELECT apellido FROM nombres ORDER BY RAND() LIMIT 1);
+        INSERT INTO medico(medico_especialidad, nombre, apellido) values (especialidad, nombre_medico, apellido_medico);
+        SET contador = contador + 1;
+    END WHILE;
+END
+//
+DELIMITER ;
+CALL insertar_medico(5)
+;
 --- Procedimiento para insertar plantas de forma aleatoria
 DELIMITER //
+DROP PROCEDURE IF EXISTS insertar_planta;
 CREATE PROCEDURE insertar_planta (in inserts int)
 BEGIN
     DECLARE ultima_planta INT;
@@ -188,62 +216,50 @@ BEGIN
     SET ultima_planta = (SELECT COUNT(*) FROM planta);
     SET contador = 0;
     WHILE contador < inserts do
-        set ultima_planta = ultima_planta + 1;
+        SET ultima_planta = ultima_planta + 1;
         INSERT INTO planta(numero) values (ultima_planta);
-        set contador = contador + 1;
+        SET contador = contador + 1;
     END WHILE; 
 END
 //
----Procedimiento para insertar citas de forma aleatoria
+DELIMITER ;
+CALL insertar_planta(5)
+;
+--- Procedimiento para insertar citas de forma aleatoria
 DELIMITER //
+DROP PROCEDURE IF EXISTS insertar_citas;
 CREATE PROCEDURE insertar_citas(IN inserts int)
 BEGIN
     DECLARE id_historial int;
     DECLARE id_medico int;
     DECLARE contador int;
-    set id_historial = (SELECT id from historial ORDER BY RAND() LIMIT 1);
-    set id_medico = (SELECT id from medico ORDER BY RAND() LIMIT 1);
-    set contador = 0;
+    SET contador = 0;
     WHILE contador < inserts do
-        INSERT INTO cita(historial, medico, fecha_hora) values (id_historial, id_medico, CURDATE());
-        set contador = contador + 1;
+        SET id_historial = (SELECT id from historial ORDER BY RAND() LIMIT 1);
+        SET id_medico = (SELECT id from medico ORDER BY RAND() LIMIT 1);
+        INSERT INTO cita(cita_historial, cita_medico, fecha_hora) values (id_historial, id_medico, CURDATE());
+        SET contador = contador + 1;
     END WHILE; 
 END
 //
----Procedimiento para insertar especialidades de forma aleatoria:
-DELIMITER //
-CREATE PROCEDURE insertar_especialidad(IN inserts int)
-BEGIN
-    DECLARE contador int;
-    DECLARE ultima_especialidad int;
-    DECLARE _descripción VARCHAR(55);
-    DECLARE nombre_especialidad VARCHAR(55);
-    set ultima_especialidad = (select count(*) from especialidad);
-    set _descripción = "Esta especialidad se dedica a tratar a los pacientes";
-    set contador = 0;
-    WHILE contador < inserts do
-        set ultima_especialidad = ultima_especialidad + 1;
-        set nombre_especialidad = CONCAT('especialidad', ultima_especialidad);
-        INSERT INTO especialidad(nombre,descripcion) values(nombre_especialidad, _descripción);
-        set contador = contador + 1;
-    END WHILE;
-END
-//
----Procedimiento para insertar exámenes médicos:
+DELIMITER ;
+CALL insertar_citas(10)
+;
+--- Procedimiento para insertar exámenes médicos:
 DELIMITER //
 CREATE PROCEDURE insertar_examen_medico (IN inserts int)
 BEGIN
     DECLARE contador int;
     DECLARE _diagnostico VARCHAR(150);
-    set contador = 0;
-    set _diagnostico = 'El diagnostico se ha realizado con éxito'
+    SET contador = 0;
+    SET _diagnostico = 'El diagnostico se ha realizado con éxito'
     WHILE contador < inserts do
         INSERT INTO examen_medico(diagnostico) values (_diagnostico);
-        set contador = contador + 1;
+        SET contador = contador + 1;
     END WHILE; 
 END
 //
----Procedimiento para insertar tratamientos:
+--- Procedimiento para insertar tratamientos:
 DELIMITER //
 CREATE PROCEDURE insertar_tratamiento (IN inserts int)
 BEGIN
@@ -253,7 +269,7 @@ BEGIN
     SET _detalle = 'Tratamiento con medicamentos'
     WHILE contador < inserts do
         INSERT INTO Tratamiento(_detalle) values (_detalle);
-        set contador = contador + 1;
+        SET contador = contador + 1;
     END WHILE;
 END
 //
