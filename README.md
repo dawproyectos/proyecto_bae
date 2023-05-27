@@ -29,7 +29,8 @@ Se requiere realizar una aplicación para la gestión de un hospital. En este ho
     <img src="img/diagrama_er.drawio.png"/>
     </div>
 - Realiza y justifica la Normalización de la BBDD.
-    - 
+    - Primero
+
     <div align="center">
     <img src="img/diagrama_er.drawio.png"/>
     </div>
