@@ -136,7 +136,7 @@ BEGIN
         SET _nombre = (SELECT nombre FROM nombres ORDER BY RAND() LIMIT 1);
         SET _apellido = (SELECT apellido FROM nombres ORDER BY RAND() LIMIT 1);
         SET _sexo = ROUND(RAND() + 1);
-        SET _date = SELECT generar_fecha_aleatoria();
+        SET _date = (SELECT generar_fecha_aleatoria());
         SET _telefono = RPAD(ultimo_paciente, 9, 0);
         SET ultimo_paciente = ultimo_paciente + 1;
         SET _documento = LPAD(CONCAT(ultimo_paciente, 'A'), 9, 0);
