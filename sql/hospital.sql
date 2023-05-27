@@ -166,7 +166,7 @@ BEGIN
         SET _telefono = (SELECT telefono_aleatorio());
         SET ultimo_paciente = ultimo_paciente + 1;
         SET _documento = LPAD(CONCAT(ultimo_paciente, 'A'), 9, 0);
-        INSERT INTO paciente values(ultimo_paciente, _documento, _nombre, _apellido, _date, _sexo, _telefono);
+        INSERT INTO paciente VALUES(ultimo_paciente, _documento, _nombre, _apellido, _date, _sexo, _telefono);
         SET contador = contador + 1;
     END WHILE;
 END 
@@ -183,14 +183,14 @@ BEGIN
     DECLARE ultima_especialidad INT;
     DECLARE _descripción VARCHAR(55);
     DECLARE nombre_especialidad VARCHAR(55);
-    SET ultima_especialidad = (select count(*) from especialidad);
+    SET ultima_especialidad = (SELECT count(*) FROM especialidad);
     SET _descripción = "Esta especialidad se dedica a tratar a los pacientes";
     SET contador = 0;
     WHILE contador < inserts do
         SET contador = contador + 1;
         SET ultima_especialidad = ultima_especialidad + 1;
         SET nombre_especialidad = CONCAT('especialidad', ultima_especialidad);
-        INSERT INTO especialidad(id_planta, nombre,descripcion) values(contador, nombre_especialidad, _descripción);
+        INSERT INTO especialidad(id_planta, nombre,descripcion) VALUES(contador, nombre_especialidad, _descripción);
     END WHILE;
 END
 //
@@ -211,7 +211,7 @@ BEGIN
         SET especialidad = (SELECT id from especialidad ORDER BY RAND() LIMIT 1);
         SET nombre_medico = (SELECT nombre FROM nombres ORDER BY RAND() LIMIT 1);
         SET apellido_medico = (SELECT apellido FROM nombres ORDER BY RAND() LIMIT 1);
-        INSERT INTO medico(id_especialidad, nombre, apellido) values (especialidad, nombre_medico, apellido_medico);
+        INSERT INTO medico(id_especialidad, nombre, apellido) VALUES (especialidad, nombre_medico, apellido_medico);
         SET contador = contador + 1;
     END WHILE;
 END
@@ -231,7 +231,7 @@ BEGIN
     WHILE contador < inserts do
         SET contador = contador + 1;
         SET medico = (SELECT id FROM medico ORDER BY RAND() LIMIT 1);
-        INSERT INTO medico_examen(id_medico, id_examen) values (medico, contador);
+        INSERT INTO medico_examen(id_medico, id_examen) VALUES (medico, contador);
     END WHILE;
 END
 //
@@ -249,7 +249,7 @@ BEGIN
     SET contador = 0;
     WHILE contador < inserts do
         SET ultima_planta = ultima_planta + 1;
-        INSERT INTO planta(numero) values (ultima_planta);
+        INSERT INTO planta(numero) VALUES (ultima_planta);
         SET contador = contador + 1;
     END WHILE; 
 END
@@ -271,7 +271,7 @@ BEGIN
         SET id_historial = (SELECT id from historial ORDER BY RAND() LIMIT 1);
         SET id_medico = (SELECT id from medico ORDER BY RAND() LIMIT 1);
         SET id_paciente = (SELECT id from paciente ORDER BY RAND() LIMIT 1);
-        INSERT INTO cita(id_historial, id_medico, id_paciente, fecha_hora) values (id_historial, id_medico, id_paciente, CURDATE());
+        INSERT INTO cita(id_historial, id_medico, id_paciente, fecha_hora) VALUES (id_historial, id_medico, id_paciente, CURDATE());
         SET contador = contador + 1;
     END WHILE; 
 END
@@ -292,7 +292,7 @@ BEGIN
     WHILE contador < inserts do
         SET contador = contador + 1;
         SET examen = (SELECT id_examen from medico_examen ORDER BY RAND() LIMIT 1);
-        INSERT INTO examen_medico(id_examen, diagnostico) values (examen, _diagnostico);
+        INSERT INTO examen_medico(id_examen, diagnostico) VALUES (examen, _diagnostico);
     END WHILE; 
 END
 //
@@ -309,7 +309,7 @@ BEGIN
     SET contador = 0;
     SET _detalle = 'Tratamiento con medicamentos';
     WHILE contador < inserts do
-        INSERT INTO tratamiento(detalle) values (_detalle);
+        INSERT INTO tratamiento(detalle) VALUES (_detalle);
         SET contador = contador + 1;
     END WHILE;
 END
@@ -330,7 +330,7 @@ BEGIN
         SET contador = contador + 1;
         SET examen = (SELECT id_examen FROM examen_medico ORDER BY RAND() LIMIT 1);
         SET tratamiento = (SELECT id FROM tratamiento ORDER BY RAND() LIMIT 1);
-        INSERT INTO examen_tratamiento(id_examen, id_tratamiento) values (examen, tratamiento);
+        INSERT INTO examen_tratamiento(id_examen, id_tratamiento) VALUES (examen, tratamiento);
     END WHILE;
 END
 //
