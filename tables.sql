@@ -61,3 +61,21 @@ BEGIN
     end while; 
 END
 //
+
+---Procedimiento para insertar citas de forma aleatoria
+DELIMITER //
+create procedure insertar_citas(IN inserts int)
+BEGIN
+    DECLARE id_historial int;
+    DECLARE id_medico int;
+    DECLARE contador int;
+    set id_historial = (SELECT id from historial ORDER BY RAND() LIMIT 1);
+    set id_medico = (SELECT id from medico ORDER BY RAND() LIMIT 1);
+    set contador = 0;
+    while contador < inserts do
+        INSERT INTO cita(historial, medico, fecha_hora) values (id_historial, id_medico, CURDATE());
+        set contador = contador + 1;
+    end while; 
+end
+//
+
