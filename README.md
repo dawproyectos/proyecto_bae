@@ -45,7 +45,7 @@ Se requiere realizar una aplicación para la gestión de un hospital. En este ho
 
     - Para verificar que se cumple con la 3NF, se ha examinado cada atributo no clave de cada tabla y se ha asegurado de que dependa únicamente de la clave primaria y no de otros atributos no clave.
 
-- ### 4NF
+- #### 4NF
 
     - La **cuarta forma normal** establece que una tabla debe cumplir con la 3NF y, además, no debe haber dependencias multivaluadas. Esto significa que los atributos no clave no deben tener dependencias de valores múltiples entre sí.
     
