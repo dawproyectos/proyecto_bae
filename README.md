@@ -10,7 +10,7 @@ Se requiere realizar una aplicación para la gestión de un hospital. En este ho
 
 ## Solución a implementar
 
-- Detecta y/o define al menos 8 tablas en la solución propuesta, __sin tener en cuenta las relaciones__.
+- #### Detecta y/o define al menos 8 tablas en la solución propuesta, __sin tener en cuenta las relaciones__.
     - Paciente.
     - Cita.
     - Historial.
