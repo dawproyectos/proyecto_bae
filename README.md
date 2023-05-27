@@ -64,7 +64,7 @@ Se requiere realizar una aplicación para la gestión de un hospital. En este ho
 
 <h4>
 
-- [Creación de tablas, índices, vistas, procedimientos, funciones y trigger.](sql/hospital.sql)
+- [Creación de tablas, funciones, procedimientos, índices, vistas, y triggers.](sql/hospital.sql)
 
 </h4>
 
