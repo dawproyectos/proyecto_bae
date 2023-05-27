@@ -334,63 +334,9 @@ END
 DELIMITER ;
 CALL insertar_examen_tratamiento(5)
 ;
---- INVENTADAS...
----Trigger para  paciente_cita:
-CREATE TABLE paciente_cita(
-    id_paciente VARCHAR(15),
-    id_cita INT
-);
---
-DELIMITER ;
-CALL insertar_paciente(5)
-;
---
-DELIMITER //
-DROP TRIGGER IF EXISTS insertar_paciente_cita1;
-CREATE TRIGGER insertar_paciente_cita1
-AFTER INSERT ON paciente
-FOR EACH ROW
-BEGIN
-    DECLARE doc_paciente VARCHAR(15);
-    SET doc_paciente = (SELECT documento FROM paciente ORDER BY id DESC LIMIT 1);
-    INSERT INTO paciente_cita(id_paciente)
-    VALUES (doc_paciente);
-END//
----
-CREATE TRIGGER trigger_rellenar_tabla3_2
-AFTER INSERT ON tabla2
-FOR EACH ROW
-BEGIN
-    INSERT INTO tabla3 (columna3, columna4)
-    VALUES (NEW.columna3, NEW.columna4);
-END//
-
-DELIMITER ;
-
-DELIMITER //
-create trigger relacion_planta_especialidad
-AFTER INSERT ON especialidad
-FOR EACH ROW
-BEGIN
-    DECLARE planta INT;
-    set planta = (select id from planta ORDER by RAND() LIMIT 1);
-    INSERT INTO especialidad_planta(NEW.id, planta);
-END;
-//
----Procedimiento para insertar datos en la relación __:
-DELIMITER //
-create trigger relacion_examen_tratamiento
-AFTER INSERT ON examen_medico
-FOR EACH ROW
-BEGIN
-    DECLARE tratamiento INT;
-    set tratamiento = (select id from tratamiento ORDER by RAND() LIMIT 1);
-    INSERT INTo examen_tratamiento values(NEW.id, tratamiento);
-END;
-//
-
+---Trigger __
 ---Vistas para ver médicos que atienden a pacientes:
-create view medico_paciente view 
+CREATE VIEW medico_paciente view 
 as 
 SELECT p.*, m.* from paciente as p JOIN paciente_cita as pa JOIN cita 
 as c JOIN medico as m on p.id = pa.id_paciente 
