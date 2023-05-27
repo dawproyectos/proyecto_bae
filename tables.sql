@@ -79,3 +79,22 @@ BEGIN
 end
 //
 
+---Procedimiento para insertar especialidades de forma aleatoria:
+DELIMITER //
+create procedure insertar_especialidad(IN inserts int)
+BEGIN
+    DECLARE contador int;
+    DECLARE ultima_especialidad int;
+    DECLARE _descripción VARCHAR(55);
+    DECLARE nombre_especialidad VARCHAR(55);
+    set ultima_especialidad = (select count(*) from especialidad);
+    set _descripción = "Esta especialidad se dedica a tratar a los pacientes";
+    set contador = 0;
+    while contador < inserts do
+        set ultima_especialidad = ultima_especialidad + 1;
+        set nombre_especialidad = CONCAT('especialidad', ultima_especialidad);
+        INSERT INTO especialidad(nombre,descripcion) values(nombre_especialidad, _descripción);
+        set contador = contador + 1;
+    end while;
+end
+//
