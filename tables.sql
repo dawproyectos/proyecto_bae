@@ -27,7 +27,7 @@ END
 //
 
 
---- Procedimiento para insertar medicos de forma aleatoriaDELIMITER //
+--- Procedimiento para insertar medicos de forma aleatoria
 DELIMITER //
 create procedure insertar_medico(IN inserts int)
 BEGIN
@@ -46,7 +46,7 @@ BEGIN
 end
 //
 
----Procedimiento para insertar plantas de forma aleatoria
+--- Procedimiento para insertar plantas de forma aleatoria
 DELIMITER //
 create procedure insertar_planta (in inserts int)
 BEGIN
