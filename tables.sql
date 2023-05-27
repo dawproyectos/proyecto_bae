@@ -98,3 +98,33 @@ BEGIN
     end while;
 end
 //
+
+---Procedimiento para insertar exámenes médicos:
+DELIMITER //
+create procedure insertar_examen_medico (IN inserts int)
+BEGIN
+    DECLARE contador int;
+    DECLARE _diagnostico VARCHAR(150);
+    set contador = 0;
+    set _diagnostico = 'El diagnostico se ha realizado con éxito'
+    while contador < inserts do
+        INSERT INTO examen_medico(diagnostico) values (_diagnostico);
+        set contador = contador + 1;
+    end while; 
+END
+//
+
+---Procedimiento para insertar tratamientos:
+DELIMITER //
+create procedure insertar_tratamiento (IN inserts int)
+BEGIN
+    DECLARE contador int;
+    DECLARE _detalle VARCHAR(150);
+    SET contador = 0;
+    SET _detalle = 'Tratamiento con medicamentos'
+    while contador < inserts do
+        INSERT INTO Tratamiento(_detalle) values (_detalle);
+        set contador = contador + 1;
+    end while;
+END
+//
