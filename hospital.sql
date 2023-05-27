@@ -24,16 +24,19 @@ CREATE TABLE especialidad(
 --- Tabla medico
 CREATE TABLE medico(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    FOREIGN KEY (especialidad) REFERENCES especialidad(id),
+    medico_especialidad INT,
     nombre VARCHAR(50),
-    apellido VARCHAR(50)
+    apellido VARCHAR(50),
+    FOREIGN KEY (medico_especialidad) REFERENCES especialidad(id)
 );
 --- Tabla cita
 CREATE TABLE cita(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    FOREIGN KEY (historial) REFERENCES historial(id),
-    FOREIGN KEY (medico) REFERENCES medico(id),
-    fecha_hora DATETIME
+    cita_historial INT,
+    cita_medico INT,
+    fecha_hora DATETIME,
+    FOREIGN KEY (cita_historial) REFERENCES historial(id),
+    FOREIGN KEY (cita_medico) REFERENCES medico(id)
 );
 --- Tabla planta
 CREATE TABLE planta(
@@ -52,10 +55,12 @@ CREATE TABLE tratamiento(
 );
 --- Tabla paciente_cita
 CREATE TABLE paciente_cita(
-    FOREIGN KEY (paciente) REFERENCES paciente(id),
-    FOREIGN KEY (cita) REFERENCES cita(id)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_paciente VARCHAR(15),
+    id_cita INT,
+    FOREIGN KEY (id_paciente) REFERENCES paciente(documento),
+    FOREIGN KEY (id_cita) REFERENCES cita(id)
 );
-
 -- PROCEDIMIENTOS
 --- Procedimiento de inserción masiva de datos en tabla paciente
 DELIMITER //
@@ -84,8 +89,6 @@ BEGIN
     end while;
 END 
 //
-
-
 --- Procedimiento para insertar medicos de forma aleatoria
 DELIMITER //
 create procedure insertar_medico(IN inserts int)
@@ -104,7 +107,6 @@ BEGIN
     end while;
 end
 //
-
 --- Procedimiento para insertar plantas de forma aleatoria
 DELIMITER //
 create procedure insertar_planta (in inserts int)
@@ -120,7 +122,6 @@ BEGIN
     end while; 
 END
 //
-
 ---Procedimiento para insertar citas de forma aleatoria
 DELIMITER //
 create procedure insertar_citas(IN inserts int)
@@ -137,7 +138,6 @@ BEGIN
     end while; 
 end
 //
-
 ---Procedimiento para insertar especialidades de forma aleatoria:
 DELIMITER //
 create procedure insertar_especialidad(IN inserts int)
@@ -157,7 +157,6 @@ BEGIN
     end while;
 end
 //
-
 ---Procedimiento para insertar exámenes médicos:
 DELIMITER //
 create procedure insertar_examen_medico (IN inserts int)
@@ -172,7 +171,6 @@ BEGIN
     end while; 
 END
 //
-
 ---Procedimiento para insertar tratamientos:
 DELIMITER //
 create procedure insertar_tratamiento (IN inserts int)
