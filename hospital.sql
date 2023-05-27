@@ -1,4 +1,4 @@
--- TABLAS
+-- TABLAS HOSPITAL
 --- Tabla paciente
 CREATE TABLE paciente(
     documento VARCHAR(15) PRIMARY KEY,
@@ -61,10 +61,50 @@ CREATE TABLE paciente_cita(
     FOREIGN KEY (id_paciente) REFERENCES paciente(documento),
     FOREIGN KEY (id_cita) REFERENCES cita(id)
 );
+-- TABLAS PARA INSERCIÓN DE DATOS
+--- Tabla nombres
+CREATE TABLE nombres (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  nombre VARCHAR(50),
+  apellido VARCHAR(50)
+);
+-- Insertar los nombres en la tabla
+INSERT INTO nombres (nombre, apellido) VALUES
+('Juan', 'Pérez'),
+('María', 'Gómez'),
+('Andrés', 'López'),
+('Laura', 'Rodríguez'),
+('Pedro', 'Martínez'),
+('Ana', 'Hernández'),
+('Carlos', 'García'),
+('Sofia', 'Fernández'),
+('Luis', 'Torres'),
+('Gabriela', 'Díaz'),
+('Alejandro', 'Morales'),
+('Valentina', 'Cabrera'),
+('Daniel', 'Ortega'),
+('Camila', 'Silva'),
+('Roberto', 'Rojas'),
+('Carolina', 'Navarro'),
+('Manuel', 'Guerrero'),
+('Natalia', 'Cortés'),
+('David', 'Vargas'),
+('Alejandra', 'Castro'),
+('Ricardo', 'Sánchez'),
+('Isabel', 'Delgado'),
+('Sergio', 'Mendoza'),
+('Daniela', 'Luna'),
+('Francisco', 'Ramírez'),
+('Marta', 'Andrade'),
+('Jorge', 'Fuentes'),
+('Paula', 'Reyes'),
+('Guillermo', 'Benítez'),
+('Victoria', 'Paredes');
 -- PROCEDIMIENTOS
 --- Procedimiento de inserción masiva de datos en tabla paciente
 DELIMITER //
-create procedure insertar_pacientes(IN inserts int)
+DROP PROCEDURE IF EXISTS insertar_pacientes;
+CREATE PROCEDURE insertar_pacientes(IN inserts int)
 BEGIN
     DECLARE ultimo_paciente INT;
     DECLARE _documento VARCHAR(9);
@@ -81,6 +121,10 @@ BEGIN
     SET _sexo = ROUND(RAND() + 1);
     SET _date = STR_TO_DATE(CONCAT(FLOOR(1 + (RAND() + 11)), '-', FLOOR(1 + (RAND() + 27)), '-', FLOOR(1900 + (RAND() + 123))), '%m-%d-%Y');
     while contador < inserts do
+        SET _nombre = (SELECT nombre FROM nombres ORDER BY RAND() LIMIT 1);
+        SET _apellido = (SELECT apellido FROM nombres ORDER BY RAND() LIMIT 1);
+        SET _sexo = ROUND(RAND() + 1);
+        SET _date = STR_TO_DATE(CONCAT(FLOOR(1 + (RAND() + 11)), '-', FLOOR(1 + (RAND() + 27)), '-', FLOOR(1900 + (RAND() + 123))), '%m-%d-%Y');
         SET _telefono = RPAD(ultimo_paciente, 9, 0);
         SET ultimo_paciente = ultimo_paciente + 1;
         SET _documento = LPAD(CONCAT(ultimo_paciente, 'A'), 9, 0);
@@ -89,6 +133,9 @@ BEGIN
     end while;
 END 
 //
+DELIMITER ;
+CALL insertar_pacientes(20)
+;
 --- Procedimiento para insertar medicos de forma aleatoria
 DELIMITER //
 create procedure insertar_medico(IN inserts int)
