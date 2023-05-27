@@ -260,7 +260,7 @@ CALL insertar_planta(5)
 --- Procedimiento para insertar citas de forma aleatoria
 DELIMITER //
 DROP PROCEDURE IF EXISTS insertar_cita;
-CREATE PROCEDURE insertar_citas(IN inserts INT)
+CREATE PROCEDURE insertar_cita(IN inserts INT)
 BEGIN
     DECLARE id_historial INT;
     DECLARE id_medico INT;
@@ -271,13 +271,13 @@ BEGIN
         SET id_historial = (SELECT id from historial ORDER BY RAND() LIMIT 1);
         SET id_medico = (SELECT id from medico ORDER BY RAND() LIMIT 1);
         SET id_paciente = (SELECT id from paciente ORDER BY RAND() LIMIT 1);
-        INSERT INTO cita(id_historial, id_medico, id_paciente, fecha_hora) values (id_historial, id_medico, CURDATE());
+        INSERT INTO cita(id_historial, id_medico, id_paciente, fecha_hora) values (id_historial, id_medico, id_paciente, CURDATE());
         SET contador = contador + 1;
     END WHILE; 
 END
 //
 DELIMITER ;
-CALL insertar_cita(10)
+CALL insertar_cita(5)
 ;
 --- Procedimiento para insertar exámenes médicos de forma aleatoria
 DELIMITER //
@@ -350,5 +350,6 @@ CREATE VIEW especialidad_medico AS
 SELECT especialidad.id, especialidad.nombre FROM especialidad JOIN medico
     ON medico.id_especialidad = especialidad.id;
 --- Vista para ver todas los documentos de pacientes que ha solicitado cita
-SELECT paciente.documento FROM paciente JOIN 
-
+CREATE VIEW documento_cita AS 
+SELECT paciente.documento FROM paciente JOIN cita
+ON paciente.id = cita.id_paciente;
