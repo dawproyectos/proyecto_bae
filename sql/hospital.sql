@@ -29,7 +29,7 @@ CREATE TABLE especialidad(
     descripcion VARCHAR(150),
     FOREIGN KEY (id_planta) REFERENCES planta(id)
 );
---- Tabla medico
+--- Tabla médico
 CREATE TABLE medico(
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_especialidad INT,
@@ -81,7 +81,7 @@ CREATE TABLE nombres (
   nombre VARCHAR(50),
   apellido VARCHAR(50)
 );
--- Inserts de nombres en la tabla
+-- Inserts sobre la tabla nombres
 INSERT INTO nombres (nombre, apellido) VALUES
 ('Juan', 'Pérez'),
 ('María', 'Gómez'),
@@ -113,7 +113,7 @@ INSERT INTO nombres (nombre, apellido) VALUES
 ('Paula', 'Reyes'),
 ('Guillermo', 'Benítez'),
 ('Victoria', 'Paredes');
--- FUNCIONES Y PROCEDIMIENTOS
+-- FUNCIONES
 --- Función para generar fechas de manera aleatoria
 DELIMITER //
 DROP FUNCTION IF EXISTS fecha_aleatoria;
@@ -143,6 +143,7 @@ BEGIN
 END //
 DELIMITER ;
 SELECT telefono_aleatorio();
+-- PROCEDIMIENTOS
 --- Procedimiento para insertar pacientes de forma aleatoria
 DELIMITER //
 DROP PROCEDURE IF EXISTS insertar_paciente;
@@ -337,6 +338,8 @@ END
 DELIMITER ;
 CALL insertar_examen_tratamiento(5)
 ;
+-- INDICES
+--- Indice para __
 -- VISTAS
 --- Vista para ver los examenes medicos realizados y la especialidad del médico que lo realizo y su nombre y apellido
 CREATE VIEW medico_examen_especialiad AS
@@ -353,3 +356,5 @@ SELECT especialidad.id, especialidad.nombre FROM especialidad JOIN medico
 CREATE VIEW documento_cita AS 
 SELECT paciente.documento FROM paciente JOIN cita
 ON paciente.id = cita.id_paciente;
+-- TIGGERS
+--- Trigger para insertar de manera automática los datos en la tabla historial
