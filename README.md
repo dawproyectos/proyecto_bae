@@ -10,7 +10,7 @@ Se requiere realizar una aplicación para la gestión de un hospital. En este ho
 
 ## Solución a implementar
 
-- #### Detecta y/o define al menos 8 tablas en la solución propuesta (sin tener en cuenta las relaciones).
+- ### Detecta y/o define al menos 8 tablas en la solución propuesta (sin tener en cuenta las relaciones).
     - Paciente.
     - Cita.
     - Historial.
@@ -20,15 +20,16 @@ Se requiere realizar una aplicación para la gestión de un hospital. En este ho
     - Examen Médico.
     - Tratamiento.
 
-- #### Crea el Diagrama ER.
+- ### Crea el Diagrama ER.
     <div align="center">
     <img src="img/entidad_relacion.drawio.png"/>
     </div>
-- #### Crea el Modelo Relacional.
+
+- ### Crea el Modelo Relacional.
     <div align="center">
     <img src="img/diagrama_er.drawio.png"/>
     </div>
-    
+
 - ### Realiza y justifica la Normalización de la BBDD.
     
     - La **primera forma normal (1NF)** establece que los datos deben estar organizados en tablas, y cada celda de la tabla debe contener un solo valor atómico (indivisible). Además, cada columna de la tabla debe tener un nombre único y no puede haber duplicados en las filas.
@@ -52,6 +53,6 @@ Se requiere realizar una aplicación para la gestión de un hospital. En este ho
     <img src="img/diagrama_er.drawio.png"/>
     </div>
 
-- #### Programa la inclusión de elementos en la BBDD.
+- ### Programa la inclusión de elementos en la BBDD.
 
 </div>
