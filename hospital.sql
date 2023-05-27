@@ -247,29 +247,37 @@ CALL insertar_citas(10)
 ;
 --- Procedimiento para insertar exámenes médicos:
 DELIMITER //
-CREATE PROCEDURE insertar_examen_medico (IN inserts int)
+DROP PROCEDURE IF EXISTS insertar_examen_medico;
+CREATE PROCEDURE insertar_examen_medico(IN inserts int)
 BEGIN
     DECLARE contador int;
     DECLARE _diagnostico VARCHAR(150);
     SET contador = 0;
-    SET _diagnostico = 'El diagnostico se ha realizado con éxito'
+    SET _diagnostico = 'El diagnostico se ha realizado con éxito';
     WHILE contador < inserts do
         INSERT INTO examen_medico(diagnostico) values (_diagnostico);
         SET contador = contador + 1;
     END WHILE; 
 END
 //
+DELIMITER ;
+CALL insertar_examen_medico(10)
+;
 --- Procedimiento para insertar tratamientos:
 DELIMITER //
-CREATE PROCEDURE insertar_tratamiento (IN inserts int)
+DROP PROCEDURE IF EXISTS insertar_tratamiento;
+CREATE PROCEDURE insertar_tratamiento(IN inserts int)
 BEGIN
     DECLARE contador int;
     DECLARE _detalle VARCHAR(150);
     SET contador = 0;
-    SET _detalle = 'Tratamiento con medicamentos'
+    SET _detalle = 'Tratamiento con medicamentos';
     WHILE contador < inserts do
-        INSERT INTO Tratamiento(_detalle) values (_detalle);
+        INSERT INTO tratamiento(detalle) values (_detalle);
         SET contador = contador + 1;
     END WHILE;
 END
 //
+DELIMITER ;
+CALL insertar_tratamiento(10)
+;
