@@ -190,7 +190,7 @@ BEGIN
         SET contador = contador + 1;
         SET ultima_especialidad = ultima_especialidad + 1;
         SET nombre_especialidad = CONCAT('especialidad', ultima_especialidad);
-        INSERT INTO especialidad(id_planta, nombre,descripcion) VALUES(contador, nombre_especialidad, _descripción);
+        INSERT INTO especialidad(id_planta, nombre,descripcion) VALUES (contador, nombre_especialidad, _descripción);
     END WHILE;
 END
 //
