@@ -281,3 +281,15 @@ END
 DELIMITER ;
 CALL insertar_tratamiento(10)
 ;
+
+---Trigger para rellenar relación especialidad-planta:
+DELIMITER //
+create trigger relacion_planta_especialidad
+AFTER INSERT ON especialidad
+FOR EACH ROW
+BEGIN
+    DECLARE planta int;
+    set planta = (select id from planta ORDER by RAND() LIMIT 1);
+    INSERT INTO especialidad_planta(NEW.id, planta);
+END;
+//
