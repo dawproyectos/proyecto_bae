@@ -1,3 +1,62 @@
+-- TABLAS
+--- Tabla paciente
+CREATE TABLE paciente(
+    documento VARCHAR(15) PRIMARY KEY,
+    nombre VARCHAR(50),
+    apellido VARCHAR(50),
+    fecha_nacimiento DATE,
+    sexo ENUM('H','M'),
+    teléfono VARCHAR(12)    
+);
+--- Tabla historial
+CREATE TABLE historial(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_cita INT,
+    id_medico INT,
+    fecha_hora DATETIME
+);
+--- Tabla especialidad
+CREATE TABLE especialidad(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50),
+    descripcion VARCHAR(150)
+);
+--- Tabla medico
+CREATE TABLE medico(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    FOREIGN KEY (especialidad) REFERENCES especialidad(id),
+    nombre VARCHAR(50),
+    apellido VARCHAR(50)
+);
+--- Tabla cita
+CREATE TABLE cita(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    FOREIGN KEY (historial) REFERENCES historial(id),
+    FOREIGN KEY (medico) REFERENCES medico(id),
+    fecha_hora DATETIME
+);
+--- Tabla planta
+CREATE TABLE planta(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    numero INT
+);
+--- Tabla examen_medico
+CREATE TABLE examen_medico(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    diagnostico VARCHAR(150)
+);
+--- Tabla tratamiento
+CREATE TABLE tratamiento(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    detalle VARCHAR(150)
+);
+--- Tabla paciente_cita
+CREATE TABLE paciente_cita(
+    FOREIGN KEY (paciente) REFERENCES paciente(id),
+    FOREIGN KEY (cita) REFERENCES cita(id)
+);
+
+-- PROCEDIMIENTOS
 --- Procedimiento de inserción masiva de datos en tabla paciente
 DELIMITER //
 create procedure insertar_pacientes(IN inserts int)
