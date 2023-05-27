@@ -10,7 +10,7 @@ Se requiere realizar una aplicación para la gestión de un hospital. En este ho
 
 ## Solución a implementar
 
-- #### Detecta y/o define al menos 8 tablas en la solución propuesta, __sin tener en cuenta las relaciones__.
+- #### Detecta y/o define al menos 8 tablas en la solución propuesta (sin tener en cuenta las relaciones).
     - Paciente.
     - Cita.
     - Historial.
@@ -20,21 +20,21 @@ Se requiere realizar una aplicación para la gestión de un hospital. En este ho
     - Examen Médico.
     - Tratamiento.
 
-- Crea el Diagrama ER.
+- #### Crea el Diagrama ER.
     <div align="center">
     <img src="img/entidad_relacion.drawio.png"/>
     </div>
-- Crea el Modelo Relacional.
+- #### Crea el Modelo Relacional.
     <div align="center">
     <img src="img/diagrama_er.drawio.png"/>
     </div>
-- Realiza y justifica la Normalización de la BBDD.
+- #### Realiza y justifica la Normalización de la BBDD.
     - Primero
 
     <div align="center">
     <img src="img/diagrama_er.drawio.png"/>
     </div>
 
-- Programa la inclusión de elementos en la BBDD.
+- #### Programa la inclusión de elementos en la BBDD.
 
 </div>
