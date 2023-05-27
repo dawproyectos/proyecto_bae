@@ -100,7 +100,7 @@ INSERT INTO nombres (nombre, apellido) VALUES
 ('Paula', 'Reyes'),
 ('Guillermo', 'Benítez'),
 ('Victoria', 'Paredes');
--- PROCEDIMIENTOS
+-- FUNCIONES Y PROCEDIMIENTOS
 --- Función para generar fechas de manera aleatoria
 DELIMITER //
 DROP FUNCTION IF EXISTS fecha_aleatoria;
