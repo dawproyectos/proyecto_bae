@@ -341,18 +341,18 @@ CALL insertar_examen_tratamiento(5)
 -- INDICES
 --- Indice para __
 -- VISTAS
---- Vista para ver los examenes medicos realizados y la especialidad del médico que lo realizo y su nombre y apellido
+--- Vista de los examenes medicos realizados y la especialidad del médico que lo realizó, nombre y apellido
 CREATE VIEW medico_examen_especialiad AS
 SELECT medico_examen.id, especialidad.nombre, medico.nombre, medico.apellido
 FROM medico_examen JOIN medico 
     ON medico_examen.id_medico = medico.id 
 JOIN especialidad 
     ON medico.id_especialidad = especialidad.id;
---- Vista para ver todas la especialidades que tienen los médicos
+--- Vista de todas la especialidades que tienen los médicos de la base de datos
 CREATE VIEW especialidad_medico AS 
 SELECT especialidad.id, especialidad.nombre FROM especialidad JOIN medico
     ON medico.id_especialidad = especialidad.id;
---- Vista para ver todas los documentos de pacientes que ha solicitado cita
+--- Vista de todos los documentos de pacientes que ha solicitado cita
 CREATE VIEW documento_cita AS 
 SELECT paciente.documento FROM paciente JOIN cita
 ON paciente.id = cita.id_paciente;
