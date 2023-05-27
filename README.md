@@ -28,7 +28,8 @@ Se requiere realizar una aplicación para la gestión de un hospital. En este ho
     <div align="center">
     <img src="img/diagrama_er.drawio.png"/>
     </div>
-- #### Realiza y justifica la Normalización de la BBDD.
+    
+- ### Realiza y justifica la Normalización de la BBDD.
     
     - La **primera forma normal (1NF)** establece que los datos deben estar organizados en tablas, y cada celda de la tabla debe contener un solo valor atómico (indivisible). Además, cada columna de la tabla debe tener un nombre único y no puede haber duplicados en las filas.
 
