@@ -305,3 +305,10 @@ BEGIN
     INSERT into examen_tratamiento values(NEW.id, tratamiento);
 END;
 //
+
+---Vistas para ver médicos que atienden a pacientes:
+create view medico_paciente view 
+as 
+SELECT p.*, m.* from paciente as p JOIN paciente_cita as pa JOIN cita 
+as c JOIN medico as m on p.id = pa.id_paciente 
+and pa.id_cita = c.id_cita and c.id_medico = m.id;
