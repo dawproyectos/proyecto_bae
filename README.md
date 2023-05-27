@@ -62,10 +62,6 @@ Se requiere realizar una aplicación para la gestión de un hospital. En este ho
 
 - ### Programa la inclusión de elementos en la BBDD.
 
-    <div align="center">
-
-    [### Creación de tablas, inserción de datos, índices, vistas, procedimientos, funciones y trigger.](sql/hospital.sql)
-    
-    </div>
+[**Creación de tablas, inserción de datos, índices, vistas, procedimientos, funciones y trigger.**](sql/hospital.sql)
 
 </div>
