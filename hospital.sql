@@ -293,3 +293,15 @@ BEGIN
     INSERT INTO especialidad_planta(NEW.id, planta);
 END;
 //
+
+---Procedimiento para insertar datos en la relación examen-tratamiento:
+DELIMITER //
+create trigger relacion_examen_tratamiento
+AFTER INSERT ON examen_medico
+FOR EACH ROW
+BEGIN
+    DECLARE tratamiento int;
+    set tratamiento = (select id from tratamiento ORDER by RAND() LIMIT 1);
+    INSERT into examen_tratamiento values(NEW.id, tratamiento);
+END;
+//
