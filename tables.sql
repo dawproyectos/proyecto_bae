@@ -45,3 +45,19 @@ BEGIN
     end while;
 end
 //
+
+---Procedimiento para insertar plantas de forma aleatoria
+DELIMITER //
+create procedure insertar_planta (in inserts int)
+BEGIN
+    DECLARE ultima_planta INT;
+    DECLARE contador INT;
+    SET ultima_planta = (SELECT COUNT(*) FROM planta);
+    SET contador = 0;
+    while contador < inserts do
+        set ultima_planta = ultima_planta + 1;
+        INSERT INTO planta(numero) values (ultima_planta);
+        set contador = contador + 1;
+    end while; 
+END
+//
