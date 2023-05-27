@@ -358,3 +358,14 @@ SELECT paciente.documento FROM paciente JOIN cita
 ON paciente.id = cita.id_paciente;
 -- TIGGERS
 --- Trigger para insertar de manera automática los datos en la tabla historial
+DELIMITER //
+DROP TRIGGER IF EXISTS insertar_cita_historial;
+CREATE TRIGGER insertar_cita_historial
+AFTER INSERT ON cita
+FOR EACH ROW
+BEGIN
+    DECLARE doc_paciente VARCHAR(15);
+    SET doc_paciente = (SELECT documento FROM paciente ORDER BY id DESC LIMIT 1);
+    INSERT INTO paciente_cita(id_paciente)
+    VALUES (doc_paciente);
+END//
