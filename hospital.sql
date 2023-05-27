@@ -101,6 +101,22 @@ INSERT INTO nombres (nombre, apellido) VALUES
 ('Guillermo', 'Benítez'),
 ('Victoria', 'Paredes');
 -- PROCEDIMIENTOS
+--- Función para generar fechas de manera aleatoria
+DELIMITER //
+DROP FUNCTION IF EXISTS generar_fecha_aleatoria;
+CREATE FUNCTION generar_fecha_aleatoria() RETURNS DATE
+DETERMINISTIC
+BEGIN
+    DECLARE fecha_inicial DATE;
+    DECLARE fecha_final DATE;
+    DECLARE num_dias INT;
+    DECLARE dias_aleatorios INT;
+    SET fecha_inicial = '1900-01-01';
+    SET fecha_final = CURDATE();
+    SET num_dias = DATEDIFF(fecha_final, fecha_inicial) + 1;
+    SET dias_aleatorios = FLOOR(RAND() * num_dias);
+    RETURN DATE_ADD(fecha_inicial, INTERVAL dias_aleatorios DAY);
+END //
 --- Procedimiento de inserción masiva de datos en tabla paciente
 DELIMITER //
 DROP PROCEDURE IF EXISTS insertar_pacientes;
@@ -116,15 +132,11 @@ BEGIN
     DECLARE _telefono INT;
     SET ultimo_paciente = (SELECT COUNT(*) FROM paciente);
     SET contador = 0;
-    SET _nombre = (SELECT nombre FROM nombres ORDER BY RAND() LIMIT 1);
-    SET _apellido = (SELECT apellido FROM nombres ORDER BY RAND() LIMIT 1);
-    SET _sexo = ROUND(RAND() + 1);
-    SET _date = STR_TO_DATE(CONCAT(FLOOR(1 + (RAND() + 11)), '-', FLOOR(1 + (RAND() + 27)), '-', FLOOR(1900 + (RAND() + 123))), '%m-%d-%Y');
     while contador < inserts do
         SET _nombre = (SELECT nombre FROM nombres ORDER BY RAND() LIMIT 1);
         SET _apellido = (SELECT apellido FROM nombres ORDER BY RAND() LIMIT 1);
         SET _sexo = ROUND(RAND() + 1);
-        SET _date = STR_TO_DATE(CONCAT(FLOOR(1 + (RAND() + 11)), '-', FLOOR(1 + (RAND() + 27)), '-', FLOOR(1900 + (RAND() + 123))), '%m-%d-%Y');
+        SET _date = SELECT generar_fecha_aleatoria();
         SET _telefono = RPAD(ultimo_paciente, 9, 0);
         SET ultimo_paciente = ultimo_paciente + 1;
         SET _documento = LPAD(CONCAT(ultimo_paciente, 'A'), 9, 0);
