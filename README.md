@@ -1,7 +1,7 @@
 <div align="justify">
 
 <div align="center">
-<img src="freepik.jpg" width=70%/>
+<img src="img/freepik.jpg" width=70%/>
 </div>
   
 # Hospital
@@ -33,6 +33,7 @@ Se requiere realizar una aplicación para la gestión de un hospital. En este ho
     <div align="center">
     <img src="img/diagrama_er.drawio.png"/>
     </div>
+
 - Programa la inclusión de elementos en la BBDD.
 
 </div>
