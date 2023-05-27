@@ -364,8 +364,12 @@ CREATE TRIGGER insertar_cita_historial
 AFTER INSERT ON cita
 FOR EACH ROW
 BEGIN
-    DECLARE doc_paciente VARCHAR(15);
-    SET doc_paciente = (SELECT documento FROM paciente ORDER BY id DESC LIMIT 1);
-    INSERT INTO paciente_cita(id_paciente)
-    VALUES (doc_paciente);
+    DECLARE _id_cita INT;
+    DECLARE _id_medico INT;
+    DECLARE _fecha_hora DATETIME;
+    SET _id_cita = (SELECT id FROM cita ORDER BY id DESC LIMIT 1);
+    SET _id_medico = (SELECT id_medico FROM cita ORDER BY id DESC LIMIT 1);
+    SET _fecha_hora = (SELECT fecha_hora FROM cita ORDER BY id DESC LIMIT 1);
+    INSERT INTO historial(id_cita, id_medico, fecha_hora)
+    VALUES (_id_cita, _id_medico, fecha_hora);
 END//
