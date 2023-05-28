@@ -9,19 +9,16 @@ CREATE TABLE paciente(
     sexo ENUM('H','M'),
     teléfono VARCHAR(12)    
 );
---- Tabla historial
 CREATE TABLE historial(
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_cita INT,
     id_medico INT,
     fecha_hora DATETIME
 );
---- Tabla planta
 CREATE TABLE planta(
     id INT AUTO_INCREMENT PRIMARY KEY,
     numero INT
 );
---- Tabla especialidad
 CREATE TABLE especialidad(
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_planta INT,
@@ -29,7 +26,6 @@ CREATE TABLE especialidad(
     descripcion VARCHAR(150),
     FOREIGN KEY (id_planta) REFERENCES planta(id)
 );
---- Tabla médico
 CREATE TABLE medico(
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_especialidad INT,
@@ -37,7 +33,6 @@ CREATE TABLE medico(
     apellido VARCHAR(50),
     FOREIGN KEY (id_especialidad) REFERENCES especialidad(id)
 );
---- Tabla cita
 CREATE TABLE cita(
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_historial INT,
@@ -47,26 +42,21 @@ CREATE TABLE cita(
     FOREIGN KEY (id_historial) REFERENCES historial(id),
     FOREIGN KEY (id_medico) REFERENCES medico(id)
 );
---- Tabla examen_medico
-CREATE TABLE examen_medico(
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_examen INT,
-    diagnostico VARCHAR(150),
-    FOREIGN KEY (id_examen) REFERENCES medico_examen(id_examen)
-);
---- Tabla tratamiento
-CREATE TABLE tratamiento(
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    detalle VARCHAR(150)
-);
---- Tabla medico_examen
 CREATE TABLE medico_examen(
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_medico INT,
     id_examen INT,
     FOREIGN KEY (id_medico) REFERENCES medico(id)
 );
---- Tabla examen_tratamiento
+CREATE TABLE examen_medico(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_examen INT,
+    diagnostico VARCHAR(150)
+);
+CREATE TABLE tratamiento(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    detalle VARCHAR(150)
+);
 CREATE TABLE examen_tratamiento(
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_examen INT,
@@ -130,6 +120,7 @@ BEGIN
     SET dias_aleatorios = FLOOR(RAND() * num_dias);
     RETURN DATE_ADD(fecha_inicial, INTERVAL dias_aleatorios DAY);
 END //
+DELIMITER ;
 --- Función para generar teléfonos de manera aleatoria
 DELIMITER //
 DROP FUNCTION IF EXISTS telefono_aleatorio;
@@ -174,6 +165,25 @@ END
 //
 DELIMITER ;
 CALL insertar_paciente(5)
+;
+--- Procedimiento para insertar plantas de forma aleatoria
+DELIMITER //
+DROP PROCEDURE IF EXISTS insertar_planta;
+CREATE PROCEDURE insertar_planta (in inserts INT)
+BEGIN
+    DECLARE ultima_planta INT;
+    DECLARE contador INT;
+    SET ultima_planta = (SELECT COUNT(*) FROM planta);
+    SET contador = 0;
+    WHILE contador < inserts do
+        SET contador = contador + 1;
+        SET ultima_planta = ultima_planta + 1;
+        INSERT INTO planta(numero) VALUES (ultima_planta);
+    END WHILE; 
+END
+//
+DELIMITER ;
+CALL insertar_planta(5)
 ;
 --- Procedimiento para insertar especialidades de forma aleatoria
 DELIMITER //
@@ -238,25 +248,6 @@ END
 //
 DELIMITER ;
 CALL insertar_medico_examen(5)
-;
---- Procedimiento para insertar plantas de forma aleatoria
-DELIMITER //
-DROP PROCEDURE IF EXISTS insertar_planta;
-CREATE PROCEDURE insertar_planta (in inserts INT)
-BEGIN
-    DECLARE ultima_planta INT;
-    DECLARE contador INT;
-    SET ultima_planta = (SELECT COUNT(*) FROM planta);
-    SET contador = 0;
-    WHILE contador < inserts do
-        SET contador = contador + 1;
-        SET ultima_planta = ultima_planta + 1;
-        INSERT INTO planta(numero) VALUES (ultima_planta);
-    END WHILE; 
-END
-//
-DELIMITER ;
-CALL insertar_planta(5)
 ;
 --- Procedimiento para insertar citas de forma aleatoria
 DELIMITER //
@@ -343,12 +334,12 @@ CALL insertar_examen_tratamiento(5)
 CREATE INDEX idx_cita ON cita(id_paciente, id_medico, id_historial);
 -- VISTAS
 --- Vista de los examenes medicos realizados y la especialidad del médico que lo realizó, nombre y apellido
-CREATE VIEW medico_examen_especialiad AS
-SELECT medico_examen.id, especialidad.nombre, medico.nombre, medico.apellido
+CREATE VIEW medico_examen_especialidad AS
+SELECT medico_examen.id, especialidad.nombre AS especialidad, medico.nombre, medico.apellido
 FROM medico_examen JOIN medico 
-    ON medico_examen.id_medico = medico.id 
+ON medico_examen.id_medico = medico.id 
 JOIN especialidad 
-    ON medico.id_especialidad = especialidad.id;
+ON medico.id_especialidad = especialidad.id;
 --- Vista de todas la especialidades que tienen los médicos de la base de datos
 CREATE VIEW especialidad_medico AS 
 SELECT especialidad.id, especialidad.nombre FROM especialidad JOIN medico
@@ -372,5 +363,6 @@ BEGIN
     SET _id_medico = (SELECT id_medico FROM cita ORDER BY id DESC LIMIT 1);
     SET _fecha_hora = (SELECT fecha_hora FROM cita ORDER BY id DESC LIMIT 1);
     INSERT INTO historial(id_cita, id_medico, fecha_hora)
-    VALUES (_id_cita, _id_medico, fecha_hora);
+    VALUES (_id_cita, _id_medico, _fecha_hora);
 END//
+DELIMITER ;
