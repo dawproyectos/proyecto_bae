@@ -332,6 +332,8 @@ CALL insertar_examen_tratamiento(5)
 -- INDICES
 --- Indice para mejorar la eficiencia en las consultas de la tabla cita:
 CREATE INDEX idx_cita ON cita(id_paciente, id_medico, id_historial);
+CREATE FULLTEXT INDEX idx_examen ON examen_medico(diagnostico);
+CREATE FULLTEXT INDEX idx_tratamiento ON tratamiento(detalle);
 -- VISTAS
 --- Vista de los examenes medicos realizados y la especialidad del médico que lo realizó, nombre y apellido
 CREATE VIEW medico_examen_especialidad AS
