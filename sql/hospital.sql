@@ -353,6 +353,6 @@ DROP TRIGGER IF EXISTS insertar_cita_historial;
 CREATE TRIGGER insertar_cita_historial AFTER INSERT ON cita
 FOR EACH ROW
 BEGIN
-    INSERT INTO historial VALUES (NEW.id, NEW.id_cita, NEW.id_medico, NEW.id_paciente, CURDATE());
+    INSERT INTO historial(id_cita, id_medico, id_paciente) VALUES (NEW.id_cita, NEW.id_medico, NEW.id_paciente, CURDATE());
 END//
 DELIMITER ;
