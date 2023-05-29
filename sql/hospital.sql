@@ -1,5 +1,4 @@
 -- TABLAS HOSPITAL
---- Tabla paciente
 CREATE TABLE paciente(
     id INT AUTO_INCREMENT PRIMARY KEY,
     documento VARCHAR(15) UNIQUE,
@@ -64,14 +63,12 @@ CREATE TABLE examen_tratamiento(
     FOREIGN KEY (id_examen) REFERENCES medico_examen(id),
     FOREIGN KEY (id_tratamiento) REFERENCES tratamiento(id)
 );
--- TABLAS PARA INSERCIÓN DE DATOS
---- Tabla nombres
+-- TABLAS E INSERTS PARA DATOS
 CREATE TABLE nombres (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(50),
   apellido VARCHAR(50)
 );
--- Inserts sobre la tabla nombres
 INSERT INTO nombres (nombre, apellido) VALUES
 ('Juan', 'Pérez'),
 ('María', 'Gómez'),
@@ -358,13 +355,7 @@ CREATE TRIGGER insertar_cita_historial
 AFTER INSERT ON cita
 FOR EACH ROW
 BEGIN
-    DECLARE _id_cita INT;
-    DECLARE _id_medico INT;
-    DECLARE _fecha_hora DATETIME;
-    SET _id_cita = (SELECT id FROM cita ORDER BY id DESC LIMIT 1);
-    SET _id_medico = (SELECT id_medico FROM cita ORDER BY id DESC LIMIT 1);
-    SET _fecha_hora = (SELECT fecha_hora FROM cita ORDER BY id DESC LIMIT 1);
     INSERT INTO historial(id_cita, id_medico, fecha_hora)
-    VALUES (_id_cita, _id_medico, _fecha_hora);
+    VALUES (NEW.id_cita, NEW.id_medico, CURRENT();
 END//
 DELIMITER ;
