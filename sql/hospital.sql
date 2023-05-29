@@ -12,6 +12,7 @@ CREATE TABLE historial(
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_cita INT,
     id_medico INT,
+    id_paciente INT,
     fecha_hora DATETIME
 );
 CREATE TABLE planta(
@@ -34,12 +35,11 @@ CREATE TABLE medico(
 );
 CREATE TABLE cita(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    id_historial INT,
     id_medico INT,
     id_paciente INT,
     fecha_hora DATETIME,
-    FOREIGN KEY (id_historial) REFERENCES historial(id),
-    FOREIGN KEY (id_medico) REFERENCES medico(id)
+    FOREIGN KEY (id_medico) REFERENCES medico(id),
+    FOREIGN KEY (id_paciente) REFERENCES paciente(id)
 );
 CREATE TABLE medico_examen(
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -118,6 +118,7 @@ BEGIN
     RETURN DATE_ADD(fecha_inicial, INTERVAL dias_aleatorios DAY);
 END //
 DELIMITER ;
+SELECT fecha_aleatoria();
 --- Función para generar teléfonos de manera aleatoria
 DELIMITER //
 DROP FUNCTION IF EXISTS telefono_aleatorio;
@@ -251,17 +252,15 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS insertar_cita;
 CREATE PROCEDURE insertar_cita(IN inserts INT)
 BEGIN
-    DECLARE id_historial INT;
     DECLARE id_medico INT;
     DECLARE id_paciente INT;
     DECLARE contador INT;
     SET contador = 0;
     WHILE contador < inserts do
         SET contador = contador + 1;
-        SET id_historial = (SELECT id from historial ORDER BY RAND() LIMIT 1);
         SET id_medico = (SELECT id from medico ORDER BY RAND() LIMIT 1);
         SET id_paciente = (SELECT id from paciente ORDER BY RAND() LIMIT 1);
-        INSERT INTO cita(id_historial, id_medico, id_paciente, fecha_hora) VALUES (id_historial, id_medico, id_paciente, CURDATE());
+        INSERT INTO cita(id_medico, id_paciente, fecha_hora) VALUES (id_medico, id_paciente, CURDATE());
     END WHILE; 
 END
 //
@@ -351,11 +350,9 @@ ON paciente.id = cita.id_paciente;
 --- Trigger para insertar de manera automática los datos en la tabla historial
 DELIMITER //
 DROP TRIGGER IF EXISTS insertar_cita_historial;
-CREATE TRIGGER insertar_cita_historial
-AFTER INSERT ON cita
+CREATE TRIGGER insertar_cita_historial AFTER INSERT ON cita
 FOR EACH ROW
 BEGIN
-    INSERT INTO historial(id_cita, id_medico, fecha_hora)
-    VALUES (NEW.id_cita, NEW.id_medico, CURRENT();
+    INSERT INTO historial VALUES (NEW.id, NEW.id_cita, NEW.id_medico, NEW.id_paciente, CURDATE());
 END//
 DELIMITER ;
