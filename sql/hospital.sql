@@ -26,12 +26,26 @@ CREATE TABLE especialidad(
     descripcion VARCHAR(150),
     FOREIGN KEY (id_planta) REFERENCES planta(id)
 );
+CREATE TABLE historial_especialidades(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_planta INT,
+    nombre VARCHAR(50),
+    descripcion VARCHAR(150),
+    fecha_hora DATETIME
+);
 CREATE TABLE medico(
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_especialidad INT,
     nombre VARCHAR(50),
     apellido VARCHAR(50),
     FOREIGN KEY (id_especialidad) REFERENCES especialidad(id)
+);
+CREATE TABLE historial_medicos(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_especialidad INT,
+    nombre VARCHAR(50),
+    apellido VARCHAR(50),
+    fecha_hora DATETIME
 );
 CREATE TABLE cita(
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -326,9 +340,11 @@ DELIMITER ;
 CALL insertar_examen_tratamiento(5)
 ;
 -- INDICES
---- Indice para mejorar la eficiencia en las consultas de la tabla cita:
+--- Indice para mejorar la eficiencia en las consultas de la tabla "cita"
 CREATE INDEX idx_cita ON cita(id_paciente, id_medico, id_historial);
+--- Indice para mejorar la eficiencia en el campo de tipo texto "diagnostico"
 CREATE FULLTEXT INDEX idx_examen ON examen_medico(diagnostico);
+--- Indice para mejorar la eficiencia en el campo de tipo texto "detalle"
 CREATE FULLTEXT INDEX idx_tratamiento ON tratamiento(detalle);
 -- VISTAS
 --- Vista de los examenes medicos realizados y la especialidad del médico que lo realizó, nombre y apellido
@@ -347,12 +363,32 @@ CREATE VIEW documento_cita AS
 SELECT paciente.documento FROM paciente JOIN cita
 ON paciente.id = cita.id_paciente;
 -- TIGGERS
---- Trigger para insertar de manera automática los datos en la tabla historial
+--- Trigger para insertar de manera automática los datos en la tabla "historial"
 DELIMITER //
 DROP TRIGGER IF EXISTS insertar_cita_historial;
 CREATE TRIGGER insertar_cita_historial AFTER INSERT ON cita
 FOR EACH ROW
 BEGIN
     INSERT INTO historial(id_cita, id_medico, id_paciente, fecha_hora) VALUES (NEW.id, NEW.id_medico, NEW.id_paciente, CURDATE());
+END//
+DELIMITER ;
+--- Trigger para insertar de manera automática los datos en la tabla "historial_especialidades"
+DELIMITER //
+DROP TRIGGER IF EXISTS insertar_especialidad_historial;
+CREATE TRIGGER insertar_especialidad_historial AFTER INSERT ON especialidad
+FOR EACH ROW
+BEGIN
+    INSERT INTO historial_especialidades(id_planta, nombre, descripcion, fecha_hora)
+    VALUES (NEW.id_planta, NEW.nombre, NEW.descripcion, CURDATE());
+END//
+DELIMITER ;
+--- Trigger para insertar de manera automática los datos en la tabla "historial_medicos"
+DELIMITER //
+DROP TRIGGER IF EXISTS insertar_medico_historial;
+CREATE TRIGGER insertar_medico_historial AFTER INSERT ON medico
+FOR EACH ROW
+BEGIN
+    INSERT INTO historial_medicos(id_especialidad, nombre, apellido, fecha_hora)
+    VALUES (NEW.id_especialidad, NEW.nombre, NEW.apellido, CURDATE());
 END//
 DELIMITER ;
